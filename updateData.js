@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-const Joi = require('Joi');
+const Joi = require('joi');
 
 const UpdateDataValidator = Joi.object();
 
