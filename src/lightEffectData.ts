@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-const Joi = require('joi');
+import Joi from 'joi';
 
 const SpeedValidator = Joi.number().optional();
 
@@ -100,4 +100,4 @@ const LightEffectDataValidator = Joi.object().keys({
     }),
 });
 
-module.exports = LightEffectDataValidator;
+export default LightEffectDataValidator;

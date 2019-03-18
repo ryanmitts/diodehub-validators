@@ -16,8 +16,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-const Joi = require('joi');
+import Joi from 'joi';
 
 const UpdateDataValidator = Joi.object();
 
-module.exports = UpdateDataValidator;
+export default UpdateDataValidator;

@@ -16,13 +16,13 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-const Joi = require('joi');
+import Joi from 'joi';
 
-const LightEffectDataValidator = require('./lightEffectData');
+import UpdateDataValidator from './updateData';
 
-const LightMessageValidator = Joi.object().keys({
-    action: Joi.only('light'),
-    data: LightEffectDataValidator
+const UpdateMessageValidator = Joi.object().keys({
+    action: Joi.only('update'),
+    data: UpdateDataValidator
 });
 
-module.exports = LightMessageValidator;
+export default UpdateMessageValidator;
