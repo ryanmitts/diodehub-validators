@@ -16,9 +16,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-export { default as EffectDataValidator } from './lightEffectData';
-export { default as UpdateDataValidator } from './updateData';
-export { default as LightMessageValidator } from './lightMessage';
-export { default as UpdateMessageValidator } from './updateMessage';
-export { default as CubeDataValidator } from './cubeEffectData';
-export { default as CubeMessageValidator } from './cubeMessage';
+import Joi from 'joi';
+import CubeEffectDataValidator from './cubeEffectData';
+
+const CubeMessageValidator = Joi.object().keys({
+    action: Joi.only('cube'),
+    data: CubeEffectDataValidator
+});
+
+export default CubeMessageValidator;
