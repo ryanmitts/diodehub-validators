@@ -14,80 +14,77 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
-*/
+ */
 
-import Joi from 'joi';
+import Joi from "joi";
 
 const SpeedValidator = Joi.number().optional();
 
+const ColorAndRainbowEffectOptionsValidator = Joi.object().keys({
+  subEffect: Joi.any().only(
+    "rotateLeft",
+    "rotateRight",
+    "flash",
+    "rotateUp",
+    "rotateDown",
+    "rotateRandom"
+  ),
+  speed: Joi.any().when("subEffect", {
+    is: Joi.exist(),
+    then: SpeedValidator,
+    otherwise: Joi.forbidden(),
+  }),
+});
+
 const SpeedOnlyEffectValidator = Joi.object().keys({
-    speed: SpeedValidator,
+  speed: SpeedValidator,
 });
 
 const LettersEffectValidator = Joi.object().keys({
-    speed: SpeedValidator,
-    message: Joi.string()
-});
-
-const ColorEffectValidator = Joi.object().keys({
-    speed: SpeedValidator,
+  speed: SpeedValidator,
+  message: Joi.string(),
 });
 
 const CubeEffectDataValidator = Joi.object().keys({
-    effect: Joi.any().only(
-        'off',
-        'color',
-        'breathe',
-        'expandingCube',
-        'letters',
-        'matrix',
-        'rain',
-        'rainbow',
-        'randomPulse',
-        'sineSurface',
-        'spiral'
-    ),
-    options: Joi.alternatives()
-        .when('effect', {
-            is: Joi.any().only(
-                'breathe',
-                'expandingCube',
-                'matrix',
-                'rain',
-                'rainbow',
-                'randomPulse',
-                'sineSurface',
-                'spiral'
-            ),
-            then: SpeedOnlyEffectValidator,
-        })
-        .when('effect', {
-            is: Joi.any().only(
-                'color'
-            ),
-            then: ColorEffectValidator,
-        })
-        .when('effect', {
-            is: Joi.any().only(
-                'letters'
-            ),
-            then: LettersEffectValidator,
-        })
-        .when('effect', {
-            is: Joi.any().only('off'),
-            then: Joi.object()
-                .keys({})
-                .optional(),
-        }),
-    colors: Joi.any().when('effect', {
-        is: Joi.any().only(
-            'color',
-        ),
-        then: Joi.array().items(Joi.string().regex(/^#[0-9A-Fa-f]{2,6}$/)),
-        otherwise: Joi.array()
-            .length(0)
-            .optional(),
+  effect: Joi.any().only(
+    "off",
+    "color",
+    "breathe",
+    "expandingCube",
+    "letters",
+    "matrix",
+    "rain",
+    "rainbow",
+    "randomPulse",
+    "sineSurface",
+    "spiral"
+  ),
+  options: Joi.alternatives()
+    .when("effect", {
+      is: Joi.any().only(
+        "breathe",
+        "expandingCube",
+        "matrix",
+        "rain",
+        "randomPulse",
+        "sineSurface",
+        "spiral"
+      ),
+      then: SpeedOnlyEffectValidator,
+    })
+    .when("effect", {
+      is: Joi.any().only("color", "rainbow"),
+      then: ColorAndRainbowEffectOptionsValidator,
+    })
+    .when("effect", {
+      is: Joi.any().only("letters"),
+      then: LettersEffectValidator,
+    })
+    .when("effect", {
+      is: Joi.any().only("off"),
+      then: Joi.object().keys({}).optional(),
     }),
+  colors: Joi.array().optional().items(Joi.string().regex(/^#[0-9A-Fa-f]{2,6}$/)),
 });
 
 export default CubeEffectDataValidator;

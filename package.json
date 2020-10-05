@@ -1,6 +1,6 @@
 {
   "name": "@ryanmitts/diodehub-validators",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "main": "lib/index.js",
   "scripts": {
     "build": "tsc"
